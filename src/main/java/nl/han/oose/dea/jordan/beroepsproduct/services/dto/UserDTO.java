@@ -1,14 +1,10 @@
 package nl.han.oose.dea.jordan.beroepsproduct.services.dto;
 
-import jakarta.json.bind.annotation.JsonbProperty;
-
 public class UserDTO {
     private String token;
-    private String name;
+    private String user;
 
-    public UserDTO(String token, String name) {
-        this.token = token;
-        this.name = name;
+    public UserDTO() {
     }
 
     public String getToken() {
@@ -19,11 +15,11 @@ public class UserDTO {
         this.token = token;
     }
 
-    public String getName() {
-        return name;
+    public String getUser() {
+        return user;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUser(String user) {
+        this.user = user;
     }
 }

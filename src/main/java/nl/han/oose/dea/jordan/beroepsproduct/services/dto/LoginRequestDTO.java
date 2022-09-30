@@ -4,6 +4,9 @@ public class LoginRequestDTO {
     private String user;
     private String password;
 
+    public LoginRequestDTO() {
+    }
+
     public String getUser() {
         return user;
     }

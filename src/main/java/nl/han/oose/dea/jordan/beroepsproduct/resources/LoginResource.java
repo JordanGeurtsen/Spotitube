@@ -7,6 +7,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import nl.han.oose.dea.jordan.beroepsproduct.services.HardCodedLoginService;
 import nl.han.oose.dea.jordan.beroepsproduct.services.LoginService;
 import nl.han.oose.dea.jordan.beroepsproduct.services.dto.LoginRequestDTO;
 import nl.han.oose.dea.jordan.beroepsproduct.services.dto.UserDTO;
@@ -20,13 +21,8 @@ public class LoginResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(LoginRequestDTO login) {
-       UserDTO user = loginService.login(login.getUser(), login.getPassword());
-
-        if (user == null) {
-            return Response.status(401).build();
-        } else {
-            return Response.ok(user).build();
-        }
+        var user = loginService.login(login.getUser(), login.getPassword());
+        return Response.ok(user).build();
     }
 
     @Inject
