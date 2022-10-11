@@ -1,6 +1,7 @@
-package nl.han.oose.dea.jordan.beroepsproduct.services.dto;
+package nl.han.oose.dea.jordan.beroepsproduct.domain.dto;
 
 public class UserDTO {
+    private int id;
     private String token;
     private String user;
 
@@ -21,5 +22,13 @@ public class UserDTO {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

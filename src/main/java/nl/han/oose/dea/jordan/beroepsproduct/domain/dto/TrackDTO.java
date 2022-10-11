@@ -1,4 +1,4 @@
-package nl.han.oose.dea.jordan.beroepsproduct.services.dto;
+package nl.han.oose.dea.jordan.beroepsproduct.domain.dto;
 
 public class TrackDTO {
 

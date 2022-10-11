@@ -1,10 +1,11 @@
-package nl.han.oose.dea.jordan.beroepsproduct.services.dto;
+package nl.han.oose.dea.jordan.beroepsproduct.domain.dto;
 
 public class PlaylistDTO {
     private int id;
     private String name;
-    private boolean owner;
-    private TracklistDTO tracks;
+    private boolean owner = true;
+    private int ownerID;
+    private TracklistDTO tracks = new TracklistDTO();
 
     public PlaylistDTO() {
     }
@@ -25,33 +26,31 @@ public class PlaylistDTO {
         this.name = name;
     }
 
-    public boolean isOwner() {
+    public boolean getOwner() {
         return owner;
     }
-
     public void setOwner(boolean owner) {
         this.owner = owner;
     }
 
-    public TracklistDTO getTracks() {
-        return tracks;
+    public int getOwnerId() {
+        return ownerID;
+    }
+    public void setOwnerId(int ownerID) {
+        this.ownerID = ownerID;
     }
 
     public void setTracks(TracklistDTO tracks) {
         this.tracks = tracks;
     }
 
-    public void addTrack(TrackDTO track) {
-        tracks.addTrack(track);
-    }
-
-    public void removeTrack(int trackID) {
-        tracks.removeTrack(trackID);
+    public TracklistDTO getTracks() {
+        return tracks;
     }
 
     public int updatePlaylistDuration() {
         int duration = 0;
-        if (tracks.getTracks() != null) {
+        if (tracks != null) {
             for (TrackDTO track : tracks.getTracks()) {
                 duration += track.getDuration();
             }
