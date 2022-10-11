@@ -3,15 +3,14 @@ package nl.han.oose.dea.jordan.beroepsproduct.resources.exceptions;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
-import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.AccountNotFoundException;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.DatabaseException;
 
 @Provider
-public class AccountNotFoundMapper implements ExceptionMapper<AccountNotFoundException> {
-
+public class DatabaseMapper implements ExceptionMapper<DatabaseException> {
     @Override
-    public Response toResponse(AccountNotFoundException e) {
+    public Response toResponse(DatabaseException e) {
         return Response
-                .status(401)
+                .status(500)
                 .entity(e.getMessage())
                 .build();
     }

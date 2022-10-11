@@ -3,16 +3,16 @@ package nl.han.oose.dea.jordan.beroepsproduct.resources.exceptions;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
-import nl.han.oose.dea.jordan.beroepsproduct.services.exceptions.InvalidTokenException;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.UnauthorizedException;
 
 @Provider
-public class IncorrectTokenMapper implements ExceptionMapper<InvalidTokenException> {
+public class IncorrectTokenMapper implements ExceptionMapper<UnauthorizedException> {
 
     @Override
-    public Response toResponse(InvalidTokenException e) {
-        return Response.status(401)
+    public Response toResponse(UnauthorizedException e) {
+        return Response
+                .status(403)
                 .entity(e.getMessage())
-                .type("text/plain")
                 .build();
     }
 }
