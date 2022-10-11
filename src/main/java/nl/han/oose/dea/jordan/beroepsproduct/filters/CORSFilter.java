@@ -1,4 +1,4 @@
-package nl.han.oose.dea.jordan.beroepsproduct;
+package nl.han.oose.dea.jordan.beroepsproduct.filters;
 
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerResponseContext;
