@@ -1,14 +1,16 @@
 package nl.han.oose.dea.jordan.beroepsproduct.resources;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
-import nl.han.oose.dea.jordan.beroepsproduct.services.LoginService;
-import nl.han.oose.dea.jordan.beroepsproduct.services.TrackService;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.LoginService;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.TrackService;
 
 @Path("/tracks")
 public class TrackResource {
-
     private TrackService trackService;
     private LoginService loginService;
 
@@ -17,7 +19,10 @@ public class TrackResource {
     @Produces("application/json")
     public Response getTracksForPlaylist(@QueryParam("token") String token, @QueryParam("forPlaylist") int id){
         loginService.authorize(token);
-        return Response.ok(trackService.getTracksSuitableForPlaylist(id, token)).build();
+        return Response
+                .status(200)
+                .entity(trackService.getTracksSuitableForPlaylist(id))
+                .build();
     }
 
     @Inject

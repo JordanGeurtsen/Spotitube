@@ -3,24 +3,25 @@ package nl.han.oose.dea.jordan.beroepsproduct.resources;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
-import nl.han.oose.dea.jordan.beroepsproduct.services.HardCodedPlaylistService;
-import nl.han.oose.dea.jordan.beroepsproduct.services.LoginService;
-import nl.han.oose.dea.jordan.beroepsproduct.services.PlaylistService;
-import nl.han.oose.dea.jordan.beroepsproduct.services.dto.PlaylistDTO;
-import nl.han.oose.dea.jordan.beroepsproduct.services.dto.TrackDTO;
-import nl.han.oose.dea.jordan.beroepsproduct.services.dto.TracklistDTO;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.LoginService;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.PlaylistService;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.PlaylistDTO;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.TrackDTO;
 
 @Path("/playlists")
 public class PlaylistResource {
 
     private PlaylistService playlistService;
-    private LoginService loginService;
+    private LoginService LoginService;
     @GET
     @Path("/")
     @Produces("application/json")
     public Response getPlaylists(@QueryParam("token") String token) {
-        loginService.authorize(token);
-        return Response.ok(playlistService.getAllPlaylists()).build();
+        LoginService.authorize(token);
+        return Response
+                .status(200)
+                .entity(playlistService.getAllPlaylists())
+                .build();
     }
 
     @POST
@@ -28,8 +29,11 @@ public class PlaylistResource {
     @Consumes("application/json")
     @Produces("application/json")
     public Response addPlaylist(PlaylistDTO playlist, @QueryParam("token") String token) {
-        loginService.authorize(token);
-        return Response.ok(playlistService.addPlaylist(playlist)).build();
+        LoginService.authorize(token);
+        return Response
+                .status(200)
+                .entity(playlistService.addPlaylist(playlist))
+                .build();
     }
 
     @PUT
@@ -37,26 +41,37 @@ public class PlaylistResource {
     @Consumes("application/json")
     @Produces("application/json")
     public Response updatePlaylist(@PathParam("id") int id, PlaylistDTO body, @QueryParam("token") String token) {
-        loginService.authorize(token);
-        return Response.ok(playlistService.updatePlaylist(id, body)).build();
+        LoginService.authorize(token);
+        return Response
+                .status(200)
+                .entity(playlistService.updatePlaylist(id, body))
+                .build();
     }
 
     @DELETE
     @Path("/{id}")
+    @Consumes("application/json")
     @Produces("application/json")
     public Response deletePlaylist(@PathParam("id") int id, @QueryParam("token") String token) {
-        loginService.authorize(token);
+        LoginService.authorize(token);
         var playlists = playlistService.deletePlaylist(id);
-        return Response.ok(playlists).build();
+        return Response
+                .status(200)
+                .entity(playlists)
+                .build();
     }
 
     @GET
     @Path("/{id}/tracks")
+    @Consumes("application/json")
     @Produces("application/json")
     public Response getTracksFromPlaylist(@PathParam("id") int id, @QueryParam("token") String token) {
-        loginService.authorize(token);
+        LoginService.authorize(token);
         var tracks = playlistService.getTracksFromPlaylist(id);
-        return Response.ok(tracks).build();
+        return Response
+                .status(200)
+                .entity(tracks)
+                .build();
     }
 
     @POST
@@ -64,18 +79,25 @@ public class PlaylistResource {
     @Consumes("application/json")
     @Produces("application/json")
     public Response addTrackToPlaylist(@PathParam("id") int id, TrackDTO body, @QueryParam("token") String token) {
-        loginService.authorize(token);
+        LoginService.authorize(token);
         var playlist = playlistService.addTrackToPlaylist(id, body);
-        return Response.ok(playlist).build();
+        return Response
+                .status(200)
+                .entity(playlist)
+                .build();
     }
 
     @DELETE
     @Path("/{id}/tracks/{trackId}")
+    @Consumes("application/json")
     @Produces("application/json")
     public Response removeTrackFromPlaylist(@PathParam("id") int id, @PathParam("trackId") int trackId, @QueryParam("token") String token) {
-        loginService.authorize(token);
+        LoginService.authorize(token);
         var tracklist = playlistService.removeTrackFromPlaylist(id, trackId);
-        return Response.ok(tracklist).build();
+        return Response
+                .status(200)
+                .entity(tracklist)
+                .build();
     }
 
     @Inject
@@ -84,7 +106,7 @@ public class PlaylistResource {
     }
 
     @Inject
-    public void setLoginService(LoginService loginService) {
-        this.loginService = loginService;
+    public void setLoginService(LoginService LoginService) {
+        this.LoginService = LoginService;
     }
 }
