@@ -1,10 +1,10 @@
 package nl.han.oose.dea.jordan.beroepsproduct.resources;
 
 import jakarta.ws.rs.core.Response;
-import nl.han.oose.dea.jordan.beroepsproduct.services.LoginService;
-import nl.han.oose.dea.jordan.beroepsproduct.services.dto.LoginRequestDTO;
-import nl.han.oose.dea.jordan.beroepsproduct.services.dto.UserDTO;
-import nl.han.oose.dea.jordan.beroepsproduct.services.exceptions.AccountNotFoundException;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.LoginService;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.LoginRequestDTO;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.UserDTO;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.AccountNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -34,7 +34,7 @@ public class LoginResourceTest {
         userDTO.setUser("Jordan Geurtsen");
         userDTO.setToken("1234-1234-1234-1234");
 
-        Mockito.when(mockedLoginService.login(credentials.getUser(), credentials.getPassword())).thenReturn(userDTO);
+        Mockito.when(mockedLoginService.login(credentials)).thenReturn(userDTO);
 
         // Act
         Response response = sut.login(credentials);
@@ -51,7 +51,7 @@ public class LoginResourceTest {
         credentials.setUser("jordan");
         credentials.setPassword("123");
 
-        Mockito.when(mockedLoginService.login(credentials.getUser(), credentials.getPassword())).thenThrow(new AccountNotFoundException());
+        Mockito.when(mockedLoginService.login(credentials)).thenThrow(new AccountNotFoundException());
 
         //Act
         Exception exception = assertThrows(AccountNotFoundException.class, () -> {
@@ -64,6 +64,5 @@ public class LoginResourceTest {
 
         // Assert
         assertTrue(actualMessage.contains(expectedMessage));
-
     }
 }

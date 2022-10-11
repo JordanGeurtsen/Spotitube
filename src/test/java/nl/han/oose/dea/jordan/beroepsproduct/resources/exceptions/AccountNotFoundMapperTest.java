@@ -1,10 +1,10 @@
 package nl.han.oose.dea.jordan.beroepsproduct.resources.exceptions;
 
 import jakarta.ws.rs.core.Response;
-import nl.han.oose.dea.jordan.beroepsproduct.services.exceptions.AccountNotFoundException;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.AccountNotFoundException;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AccountNotFoundMapperTest {
 
