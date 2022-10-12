@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class PlaylistResourceTest {
 
@@ -20,8 +22,8 @@ class PlaylistResourceTest {
     @BeforeEach
     public void setup() {
         sut = new PlaylistResource();
-        mockedPlaylistService = Mockito.mock(PlaylistService.class);
-        mockedLoginService = Mockito.mock(LoginService.class);
+        mockedPlaylistService = mock(PlaylistService.class);
+        mockedLoginService = mock(LoginService.class);
         sut.setPlaylistService(mockedPlaylistService);
     }
 
@@ -45,7 +47,7 @@ class PlaylistResourceTest {
         playlistTwo.setOwner(true);
         expected.addPlaylist(playlistTwo);
 
-        Mockito.when(mockedPlaylistService.getAllPlaylists()).thenReturn(expected);
+        when(mockedPlaylistService.getAllPlaylists()).thenReturn(expected);
 
         // Act
         Response response = sut.getPlaylists(token);

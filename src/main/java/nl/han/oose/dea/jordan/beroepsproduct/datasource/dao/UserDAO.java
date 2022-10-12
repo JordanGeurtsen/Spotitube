@@ -3,6 +3,7 @@ package nl.han.oose.dea.jordan.beroepsproduct.datasource.dao;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.LoginRequestDTO;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.UserDTO;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.DatabaseException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,9 +20,7 @@ public class UserDAO extends DAOBase<UserDTO> {
         List<UserDTO> result = resultSetMapper(executeResultStatement(getGetUserWithTokenStatement(connection, token)));
         connection.close();
         return Optional.of(result.get(0));
-        } catch (SQLException e) {
-            throw new DatabaseException(e.getMessage());
-        }
+        } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
     }
 
     public UserDTO getUserWithLoginRequest(LoginRequestDTO loginRequestDTO) {
@@ -30,9 +29,7 @@ public class UserDAO extends DAOBase<UserDTO> {
         UserDTO result = resultSetMapper(executeResultStatement(getGetUserWithLoginRequestStatement(connection, loginRequestDTO))).get(0);
         connection.close();
         return result;
-        } catch (SQLException e) {
-            throw new DatabaseException(e.getMessage());
-        }
+        } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
     }
     public PreparedStatement getGetUserWithTokenStatement(Connection connection, String token) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM spotitube.users WHERE token = ?");

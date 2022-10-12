@@ -21,9 +21,7 @@ public abstract class DAOBase<T> {
             List<T> result = resultSetMapper(executeResultStatement(getGetAllStatement(connection)));
             connection.close();
             return result;
-        } catch (SQLException e) {
-            throw new DatabaseException(e.getMessage());
-        }
+        } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
     }
 
     public Optional<T> get(int id) {
@@ -32,9 +30,7 @@ public abstract class DAOBase<T> {
         Optional<T> result = Optional.of(resultSetMapper(executeResultStatement(getGetStatement(connection, id))).get(0));
         connection.close();
         return result;
-        } catch (SQLException e) {
-            throw new DatabaseException(e.getMessage());
-        }
+        } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
     }
 
     public void insert(T t) {
@@ -42,9 +38,7 @@ public abstract class DAOBase<T> {
         Connection connection = getConnection();
         executeUpdateStatement(getInsertStatement(connection, t));
         connection.close();
-        } catch (SQLException e) {
-            throw new DatabaseException(e.getMessage());
-        }
+        } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
     }
 
     public void update(T t) {
@@ -52,9 +46,7 @@ public abstract class DAOBase<T> {
         Connection connection = getConnection();
         executeUpdateStatement(getUpdateStatement(connection, t));
         connection.close();
-        } catch (SQLException e) {
-            throw new DatabaseException(e.getMessage());
-        }
+        } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
     }
 
     public void delete(int id) {
@@ -62,9 +54,7 @@ public abstract class DAOBase<T> {
         Connection connection = getConnection();
         executeUpdateStatement(getDeleteStatement(connection, id));
         connection.close();
-        } catch (SQLException e) {
-            throw new DatabaseException(e.getMessage());
-        }
+        } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
     }
 
     public abstract PreparedStatement getGetAllStatement(Connection connection) throws SQLException;
@@ -88,7 +78,7 @@ public abstract class DAOBase<T> {
     public abstract List<T> resultSetMapper(ResultSet resultSet) throws SQLException;
 
     @Inject
-    private void setDatabaseProperties(DatabaseProperties databaseProperties) {
+    public void setDatabaseProperties(DatabaseProperties databaseProperties) {
         this.databaseProperties = databaseProperties;
     }
 }

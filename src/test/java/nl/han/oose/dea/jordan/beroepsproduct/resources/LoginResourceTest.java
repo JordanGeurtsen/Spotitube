@@ -7,9 +7,10 @@ import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.UserDTO;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.AccountNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class LoginResourceTest {
 
@@ -19,7 +20,7 @@ public class LoginResourceTest {
     @BeforeEach
     public void setup() {
         sut = new LoginResource();
-        mockedLoginService = Mockito.mock(LoginService.class);
+        mockedLoginService = mock(LoginService.class);
         sut.setLoginService(mockedLoginService);
     }
 
@@ -34,7 +35,7 @@ public class LoginResourceTest {
         userDTO.setUser("Jordan Geurtsen");
         userDTO.setToken("1234-1234-1234-1234");
 
-        Mockito.when(mockedLoginService.login(credentials)).thenReturn(userDTO);
+        when(mockedLoginService.login(credentials)).thenReturn(userDTO);
 
         // Act
         Response response = sut.login(credentials);
@@ -51,7 +52,7 @@ public class LoginResourceTest {
         credentials.setUser("jordan");
         credentials.setPassword("123");
 
-        Mockito.when(mockedLoginService.login(credentials)).thenThrow(new AccountNotFoundException());
+        when(mockedLoginService.login(credentials)).thenThrow(new AccountNotFoundException());
 
         //Act
         Exception exception = assertThrows(AccountNotFoundException.class, () -> {

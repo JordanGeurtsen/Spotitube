@@ -18,10 +18,8 @@ public class DatabaseProperties {
         try {
             properties.load(getClass().getClassLoader().getResourceAsStream("database.properties"));
             Class.forName(properties.getProperty("driver"));
-        } catch (IOException e) {
-            throw new FileNotFoundException(e.getMessage());
-        } catch (java.lang.ClassNotFoundException ex) {
-            throw new ClassNotFoundException(ex.getMessage());
+        } catch (IOException e) { throw new FileNotFoundException(e.getMessage());
+        } catch (java.lang.ClassNotFoundException ex) { throw new ClassNotFoundException(ex.getMessage());
         }
     }
 

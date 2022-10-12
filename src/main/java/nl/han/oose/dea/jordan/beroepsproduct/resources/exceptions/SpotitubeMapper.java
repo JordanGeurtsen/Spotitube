@@ -3,15 +3,15 @@ package nl.han.oose.dea.jordan.beroepsproduct.resources.exceptions;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
-import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.AccountNotFoundException;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.SpotitubeException;
 
 @Provider
-public class AccountNotFoundMapper implements ExceptionMapper<AccountNotFoundException> {
+public class SpotitubeMapper implements ExceptionMapper<SpotitubeException> {
 
     @Override
-    public Response toResponse(AccountNotFoundException e) {
+    public Response toResponse(SpotitubeException e) {
         return Response
-                .status(401)
+                .status(e.getStatus())
                 .entity(e.getMessage())
                 .build();
     }

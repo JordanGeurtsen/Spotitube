@@ -2,6 +2,7 @@ package nl.han.oose.dea.jordan.beroepsproduct.datasource.dao;
 
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.TrackDTO;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.TracklistDTO;
+import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.DatabaseException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,18 +16,14 @@ public class TrackListDAO extends DAOBase<TracklistDTO> {
         try {
             Connection connection = getConnection();
             executeUpdateStatement(getInsertWithPlaylistTrackAndOfflineAvailableStatement(connection, playlistID, trackID, offlineAvailable));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
     }
 
     public void deleteWithPlayListAndTrack(int playlist, int track) {
         try {
             Connection connection = getConnection();
             executeUpdateStatement(getDeleteWithPlaylistAndTrackStatement(connection, playlist, track));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
     }
 
     public PreparedStatement getInsertWithPlaylistTrackAndOfflineAvailableStatement(Connection connection, int playlistID, int trackID, boolean offlineAvailable) throws SQLException {

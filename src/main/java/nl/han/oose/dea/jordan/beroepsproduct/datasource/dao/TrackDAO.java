@@ -18,9 +18,7 @@ public class TrackDAO extends DAOBase<TrackDTO> {
             List<TrackDTO> result = resultSetMapper(executeResultStatement(getGetAllNotInPlaylistStatement(connection, id)));
             connection.close();
             return result;
-        } catch (SQLException e) {
-            throw new DatabaseException(e.getMessage());
-        }
+        } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
     }
 
     public PreparedStatement getGetAllNotInPlaylistStatement(Connection connection, int playlistID) throws SQLException {
