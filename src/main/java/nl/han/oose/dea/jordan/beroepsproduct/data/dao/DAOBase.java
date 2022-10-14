@@ -1,36 +1,41 @@
-package nl.han.oose.dea.jordan.beroepsproduct.datasource.dao;
+package nl.han.oose.dea.jordan.beroepsproduct.data.dao;
 
 import jakarta.inject.Inject;
-import nl.han.oose.dea.jordan.beroepsproduct.datasource.utils.DatabaseProperties;
+import nl.han.oose.dea.jordan.beroepsproduct.data.utils.DatabaseConnector;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.DatabaseException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public abstract class DAOBase<T> {
-    private DatabaseProperties databaseProperties;
+    private DatabaseConnector databaseConnector;
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(databaseProperties.getDBConnectionString());
+        return databaseConnector.getConnection();
     }
 
     public List<T> getAll() {
+        List<T> result;
         try {
             Connection connection = getConnection();
-            List<T> result = resultSetMapper(executeResultStatement(getGetAllStatement(connection)));
+            result = resultSetMapper(executeResultStatement(getGetAllStatement(connection)));
             connection.close();
-            return result;
         } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
+        return result;
     }
 
     public Optional<T> get(int id) {
+        Optional<T> result;
         try {
         Connection connection = getConnection();
-        Optional<T> result = Optional.of(resultSetMapper(executeResultStatement(getGetStatement(connection, id))).get(0));
+        result = Optional.of(resultSetMapper(executeResultStatement(getGetStatement(connection, id))).get(0));
         connection.close();
-        return result;
         } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
+        return result;
     }
 
     public void insert(T t) {
@@ -78,7 +83,7 @@ public abstract class DAOBase<T> {
     public abstract List<T> resultSetMapper(ResultSet resultSet) throws SQLException;
 
     @Inject
-    public void setDatabaseProperties(DatabaseProperties databaseProperties) {
-        this.databaseProperties = databaseProperties;
+    public void setDatabaseConnector(DatabaseConnector databaseConnector) {
+        this.databaseConnector = databaseConnector;
     }
 }

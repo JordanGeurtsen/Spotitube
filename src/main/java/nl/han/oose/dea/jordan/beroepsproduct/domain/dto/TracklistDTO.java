@@ -6,6 +6,7 @@ import java.util.List;
 public class TracklistDTO {
 
     private List<TrackDTO> tracks = new ArrayList<>();
+    private int length;
 
     public TracklistDTO() {
     }
@@ -16,5 +17,13 @@ public class TracklistDTO {
 
     public void setTracks(List<TrackDTO> tracks) {
         this.tracks = tracks;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 }

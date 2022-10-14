@@ -7,6 +7,8 @@ public class PlaylistDTO {
     private int ownerID;
     private TracklistDTO tracks = new TracklistDTO();
 
+    private int length;
+
     public PlaylistDTO() {
     }
 
@@ -33,10 +35,10 @@ public class PlaylistDTO {
         this.owner = owner;
     }
 
-    public int getOwnerId() {
+    public int getOwnerID() {
         return ownerID;
     }
-    public void setOwnerId(int ownerID) {
+    public void setOwnerID(int ownerID) {
         this.ownerID = ownerID;
     }
 
@@ -48,14 +50,12 @@ public class PlaylistDTO {
         return tracks;
     }
 
-    public int updatePlaylistDuration() {
-        int duration = 0;
-        if (tracks != null) {
-            for (TrackDTO track : tracks.getTracks()) {
-                duration += track.getDuration();
-            }
-        }
-        return duration;
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 }
 

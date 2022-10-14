@@ -1,4 +1,4 @@
-package nl.han.oose.dea.jordan.beroepsproduct.datasource.utils;
+package nl.han.oose.dea.jordan.beroepsproduct.data.utils;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.ClassNotFoundException;

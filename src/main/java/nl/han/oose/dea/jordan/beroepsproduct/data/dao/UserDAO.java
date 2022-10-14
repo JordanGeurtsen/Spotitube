@@ -1,9 +1,8 @@
-package nl.han.oose.dea.jordan.beroepsproduct.datasource.dao;
+package nl.han.oose.dea.jordan.beroepsproduct.data.dao;
 
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.LoginRequestDTO;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.UserDTO;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.DatabaseException;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,21 +14,23 @@ import java.util.Optional;
 
 public class UserDAO extends DAOBase<UserDTO> {
     public Optional<UserDTO> getUserWithToken(String token) {
+        List<UserDTO> result;
         try {
         Connection connection = getConnection();
-        List<UserDTO> result = resultSetMapper(executeResultStatement(getGetUserWithTokenStatement(connection, token)));
+        result = resultSetMapper(executeResultStatement(getGetUserWithTokenStatement(connection, token)));
         connection.close();
-        return Optional.of(result.get(0));
         } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
+        return result.get(0) != null ? Optional.of(result.get(0)) : Optional.empty();
     }
 
     public UserDTO getUserWithLoginRequest(LoginRequestDTO loginRequestDTO) {
+        UserDTO result;
         try {
         Connection connection = getConnection();
-        UserDTO result = resultSetMapper(executeResultStatement(getGetUserWithLoginRequestStatement(connection, loginRequestDTO))).get(0);
+        result = resultSetMapper(executeResultStatement(getGetUserWithLoginRequestStatement(connection, loginRequestDTO))).get(0);
         connection.close();
-        return result;
         } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
+        return result;
     }
     public PreparedStatement getGetUserWithTokenStatement(Connection connection, String token) throws SQLException {
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM spotitube.users WHERE token = ?");
@@ -45,12 +46,12 @@ public class UserDAO extends DAOBase<UserDTO> {
 
     @Override
     public PreparedStatement getGetAllStatement(Connection connection) throws SQLException {
-        return connection.prepareStatement("SELECT * FROM spotitube.users");
+        return null;
     }
 
     @Override
     public PreparedStatement getGetStatement(Connection connection, int id) throws SQLException {
-        return connection.prepareStatement("SELECT * FROM spotitube.users WHERE id = " + id);
+        return null;
     }
 
     @Override

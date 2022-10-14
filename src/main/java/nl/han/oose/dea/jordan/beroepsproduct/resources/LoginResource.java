@@ -18,11 +18,10 @@ public class LoginResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response login(LoginRequestDTO login) {
-        var user = loginService.login(login);
+    public Response login(LoginRequestDTO credentials) {
         return Response
                 .status(200)
-                .entity(user)
+                .entity(loginService.login(credentials))
                 .build();
     }
 

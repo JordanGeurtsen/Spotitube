@@ -3,7 +3,7 @@ package nl.han.oose.dea.jordan.beroepsproduct.domain;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Default;
 import jakarta.inject.Inject;
-import nl.han.oose.dea.jordan.beroepsproduct.datasource.dao.UserDAO;
+import nl.han.oose.dea.jordan.beroepsproduct.data.dao.UserDAO;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.LoginRequestDTO;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.UserDTO;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.AccountNotFoundException;
@@ -16,12 +16,11 @@ import java.util.UUID;
 public class LoginService {
 
     private UserDAO userDAO;
-
     private UserDTO currentUser;
 
     public UserDTO login(LoginRequestDTO login) {
         UserDTO userDTO = userDAO.getUserWithLoginRequest(login);
-        if (userDTO == null) {
+        if(userDTO == null) {
             throw new AccountNotFoundException();
         }
         userDTO.setToken(UUID.randomUUID().toString());
@@ -31,9 +30,7 @@ public class LoginService {
     }
 
     public void authorize(String token) {
-        if (userDAO.getUserWithToken(token).isEmpty()) {
-            throw new UnauthorizedException();
-        }
+        if (userDAO.getUserWithToken(token).isEmpty()) { throw new UnauthorizedException(); }
         currentUser = userDAO.getUserWithToken(token).get();
     }
 

@@ -54,10 +54,9 @@ public class PlaylistResource {
     @Produces("application/json")
     public Response deletePlaylist(@PathParam("id") int id, @QueryParam("token") String token) {
         LoginService.authorize(token);
-        var playlists = playlistService.deletePlaylist(id);
         return Response
                 .status(200)
-                .entity(playlists)
+                .entity(playlistService.deletePlaylist(id))
                 .build();
     }
 
@@ -67,10 +66,9 @@ public class PlaylistResource {
     @Produces("application/json")
     public Response getTracksFromPlaylist(@PathParam("id") int id, @QueryParam("token") String token) {
         LoginService.authorize(token);
-        var tracks = playlistService.getTracksFromPlaylist(id);
         return Response
                 .status(200)
-                .entity(tracks)
+                .entity(playlistService.getTracksFromPlaylist(id))
                 .build();
     }
 
@@ -80,10 +78,9 @@ public class PlaylistResource {
     @Produces("application/json")
     public Response addTrackToPlaylist(@PathParam("id") int id, TrackDTO body, @QueryParam("token") String token) {
         LoginService.authorize(token);
-        var playlist = playlistService.addTrackToPlaylist(id, body);
         return Response
                 .status(200)
-                .entity(playlist)
+                .entity(playlistService.addTrackToPlaylist(id, body))
                 .build();
     }
 
@@ -93,10 +90,9 @@ public class PlaylistResource {
     @Produces("application/json")
     public Response removeTrackFromPlaylist(@PathParam("id") int id, @PathParam("trackId") int trackId, @QueryParam("token") String token) {
         LoginService.authorize(token);
-        var tracklist = playlistService.removeTrackFromPlaylist(id, trackId);
         return Response
                 .status(200)
-                .entity(tracklist)
+                .entity(playlistService.removeTrackFromPlaylist(id, trackId))
                 .build();
     }
 

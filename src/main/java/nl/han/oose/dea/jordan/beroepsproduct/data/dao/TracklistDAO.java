@@ -1,4 +1,4 @@
-package nl.han.oose.dea.jordan.beroepsproduct.datasource.dao;
+package nl.han.oose.dea.jordan.beroepsproduct.data.dao;
 
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.TrackDTO;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.TracklistDTO;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrackListDAO extends DAOBase<TracklistDTO> {
+public class TracklistDAO extends DAOBase<TracklistDTO> {
     public void insertWithPlaylistTrackAndOfflineAvailable(int playlistID, int trackID, boolean offlineAvailable) {
         try {
             Connection connection = getConnection();

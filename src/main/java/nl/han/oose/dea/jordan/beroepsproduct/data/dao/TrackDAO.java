@@ -1,4 +1,4 @@
-package nl.han.oose.dea.jordan.beroepsproduct.datasource.dao;
+package nl.han.oose.dea.jordan.beroepsproduct.data.dao;
 
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.TrackDTO;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.exceptions.DatabaseException;
@@ -13,12 +13,13 @@ import java.util.List;
 public class TrackDAO extends DAOBase<TrackDTO> {
 
     public List<TrackDTO> getAllTracksNotInPlaylist(int id) {
+        List<TrackDTO> result;
         try {
             Connection connection = getConnection();
-            List<TrackDTO> result = resultSetMapper(executeResultStatement(getGetAllNotInPlaylistStatement(connection, id)));
+            result = resultSetMapper(executeResultStatement(getGetAllNotInPlaylistStatement(connection, id)));
             connection.close();
-            return result;
         } catch (SQLException e) { throw new DatabaseException(e.getMessage()); }
+        return result;
     }
 
     public PreparedStatement getGetAllNotInPlaylistStatement(Connection connection, int playlistID) throws SQLException {

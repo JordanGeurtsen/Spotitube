@@ -1,4 +1,4 @@
-package nl.han.oose.dea.jordan.beroepsproduct.datasource.dao;
+package nl.han.oose.dea.jordan.beroepsproduct.data.dao;
 
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.PlaylistDTO;
 
@@ -25,7 +25,7 @@ public class PlaylistDAO extends DAOBase<PlaylistDTO> {
     public PreparedStatement getInsertStatement(Connection connection, PlaylistDTO playlistDTO) throws SQLException {
         PreparedStatement statement =  connection.prepareStatement("INSERT INTO spotitube.playlists (name, owner) VALUES (?, ?)");
         statement.setString(1, playlistDTO.getName());
-        statement.setInt(2, playlistDTO.getOwnerId());
+        statement.setInt(2, playlistDTO.getOwnerID());
         return statement;
     }
 
@@ -51,7 +51,7 @@ public class PlaylistDAO extends DAOBase<PlaylistDTO> {
             PlaylistDTO playlistDTO = new PlaylistDTO();
             playlistDTO.setId(resultSet.getInt("id"));
             playlistDTO.setName(resultSet.getString("name"));
-            playlistDTO.setOwnerId(resultSet.getInt("owner"));
+            playlistDTO.setOwnerID(resultSet.getInt("owner"));
             playlistDTOList.add(playlistDTO);
         }
         resultSet.close();

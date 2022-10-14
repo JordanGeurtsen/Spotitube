@@ -3,8 +3,8 @@ package nl.han.oose.dea.jordan.beroepsproduct.domain;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Default;
 import jakarta.inject.Inject;
-import nl.han.oose.dea.jordan.beroepsproduct.datasource.dao.PlaylistDAO;
-import nl.han.oose.dea.jordan.beroepsproduct.datasource.dao.TrackListDAO;
+import nl.han.oose.dea.jordan.beroepsproduct.data.dao.PlaylistDAO;
+import nl.han.oose.dea.jordan.beroepsproduct.data.dao.TracklistDAO;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.PlaylistDTO;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.PlaylistResponseDTO;
 import nl.han.oose.dea.jordan.beroepsproduct.domain.dto.TrackDTO;
@@ -17,7 +17,7 @@ import java.util.List;
 @ApplicationScoped
 public class PlaylistService {
     private PlaylistDAO playlistDAO;
-    private TrackListDAO tracklistDAO;
+    private TracklistDAO tracklistDAO;
     private LoginService loginService;
     private TrackService trackService;
     private final PlaylistResponseDTO playlistResponseDTO;
@@ -29,17 +29,19 @@ public class PlaylistService {
     public PlaylistResponseDTO getAllPlaylists() {
         List<PlaylistDTO> playlists = playlistDAO.getAll();
         for (PlaylistDTO playlist : playlists) {
-            playlist.setOwner(loginService.getCurrentUser().getId() == playlist.getOwnerId());
-            if (tracklistDAO.get(playlist.getId()).isPresent()) {
-                playlist.setTracks(tracklistDAO.get(playlist.getId()).get());
-            }
+            playlist.setOwner(loginService.getCurrentUser().getId() == playlist.getOwnerID());
+
+            TracklistDTO tracklistDTO = trackService.getTracksFromPlaylist(playlist.getId());
+            playlist.setTracks(tracklistDTO);
+            playlist.setLength(tracklistDTO.getLength());
         }
+        playlistResponseDTO.setLength(playlists.stream().mapToInt(PlaylistDTO::getLength).sum());
         playlistResponseDTO.setPlaylists(playlists);
         return playlistResponseDTO;
     }
 
     public PlaylistResponseDTO addPlaylist(PlaylistDTO playlist) {
-        playlist.setOwnerId(loginService.getCurrentUser().getId());
+        playlist.setOwnerID(loginService.getCurrentUser().getId());
         playlistDAO.insert(playlist);
         return getAllPlaylists();
     }
@@ -50,7 +52,7 @@ public class PlaylistService {
     }
 
     public PlaylistResponseDTO deletePlaylist(int id) {
-        if(playlistDAO.get(id).isPresent() && loginService.getCurrentUser().getId() != playlistDAO.get(id).get().getOwnerId()) {
+        if(playlistDAO.get(id).isPresent() && loginService.getCurrentUser().getId() != playlistDAO.get(id).get().getOwnerID()) {
             throw new UnauthorizedException();
         }
         playlistDAO.delete(id);
@@ -77,7 +79,7 @@ public class PlaylistService {
     }
 
     @Inject
-    public void setTracklistDAO(TrackListDAO trackListDAO) {
+    public void setTracklistDAO(TracklistDAO trackListDAO) {
         this.tracklistDAO = trackListDAO;
     }
 
