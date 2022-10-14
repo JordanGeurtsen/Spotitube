@@ -1,0 +1,46 @@
+@startuml
+
+left to right direction
+
+node "User device" as UD <<device>> {
+    rectangle "Windows    " <<OS>> {
+        component "Device Internet Browser" <<component>>
+    }
+}
+
+node "ICAProjection" as WEBS <<Webserver>> {
+    rectangle "Angular" <<Execution Environment>> {
+        artifact "Spotitube Front-End Client" <<artifact>>
+    }
+}
+
+node "API Server" as APIS <<device>> {
+    rectangle "Windows" <<OS>> {
+    rectangle "OpenJDK 17" AS JAVA <<JDK>>{
+            rectangle "JBoss/Wildfly Preview 25.0.0 Final" as WILD <<server>> {
+                artifact "spotitube.war" as SW <<artifact>>
+                artifact "mysql-connector-java-8.0.30.jar" as SQLCON <<artifact>>
+
+            }
+        }
+    }
+}
+
+
+node "Database server" as DBS <<device>> {
+    node "Windows" as WD <<OS>> {
+        database "MySQL 8.0" as DBMS <<database system>> {
+            entity "Users" as USR <<schema>>
+            entity "Tracks" as TRK <<schema>>
+            entity "Playlists" as PLT <<schema>>
+            entity "Tracklist" as PLT_TRK <<schema>>
+        }
+    }
+}
+
+WEBS -- UD : {HTTP} <<protocol>>
+APIS -- WEBS : {HTTP} <<protocol>>
+APIS -- DBS : {JDBC} <<protocol>>
+SW -- SQLCON
+
+@enduml

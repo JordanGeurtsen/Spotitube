@@ -1,0 +1,33 @@
+@startuml
+left to right direction
+
+frame Spotitube {
+
+    frame  presentation_layer {
+        folder resources
+    }
+
+    frame data_layer {
+        folder datasource {
+            folder dao
+            folder utils
+        }
+    }
+
+    frame domain_layer {
+        folder domain {
+            folder dto
+            folder exceptions
+        }
+    }
+
+
+    resources .left.> domain
+    resources .left.> dto
+    domain .> datasource
+    dao ..> dto
+    dao ..> exceptions
+    dao ..> utils
+   }
+
+@enduml
